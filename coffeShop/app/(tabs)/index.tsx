@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import Button from "@/components/Button";
 import ImageViewer from "@/components/ImageViewer";
 
-const PlaceholderImage = require("@/assets/images/background-image.png");
+const PlaceholderImage = require("@/assets/images/coffeeGroup.png");
 
 export default function Index() {
   return (
