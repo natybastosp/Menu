@@ -1,19 +1,19 @@
 import { Tabs } from "expo-router";
-
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#ffd33d",
+        tabBarActiveTintColor: "#8B4513",
         headerStyle: {
-          backgroundColor: "#25292e",
+          backgroundColor: "#FFFFFF",
         },
         headerShadowVisible: false,
-        headerTintColor: "#fff",
+        headerShown: false,
         tabBarStyle: {
-          backgroundColor: "#25292e",
+          backgroundColor: "#FFFFFF",
+          borderTopColor: "#E5E5E5",
         },
       }}
     >
@@ -23,7 +23,7 @@ export default function TabLayout() {
           title: "Home",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "home-sharp" : "home-outline"}
+              name={focused ? "home" : "home-outline"}
               color={color}
               size={24}
             />
@@ -31,14 +31,25 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="about"
+        name="order"
         options={{
-          title: "About",
+          title: "My Orders",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={
-                focused ? "information-circle" : "information-circle-outline"
-              }
+              name={focused ? "cart" : "cart-outline"}
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Vouchers",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "gift" : "gift-outline"}
               color={color}
               size={24}
             />
