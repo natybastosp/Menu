@@ -40,21 +40,21 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
       name: "Caramel Macchiato",
       price: 12.9,
       description: "Creamy dessert with authentic French syrup",
-      image: require("@/assets/images/caramel-macchiato.png"),
+      image: require("@/assets/images/coffeeGroup.png"),
     },
     {
       id: "2",
       name: "Café Mocha",
       price: 11.5,
       description: "Chocolate mixed with premium coffee",
-      image: require("@/assets/images/cafe-mocha.png"),
+      image: require("@/assets/images/coffeeGroup.png"),
     },
     {
       id: "3",
       name: "Vietnamense Latte",
       price: 10.5,
       description: "Traditional Vietnamese style coffee",
-      image: require("@/assets/images/vietnamese-latte.png"),
+      image: require("@/assets/images/coffeeGroup.png"),
     },
   ]);
 
