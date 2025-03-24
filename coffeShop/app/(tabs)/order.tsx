@@ -8,9 +8,11 @@ import {
   SafeAreaView,
   Alert,
   Modal,
+  Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAppContext } from "@/context/AppContext";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function OrdersScreen() {
   const { orders, updateOrders } = useAppContext();
@@ -25,7 +27,6 @@ export default function OrdersScreen() {
   };
 
   const handleRemoveOrder = (orderId) => {
-    // Remove the order with the specified ID
     const updatedOrders = orders.filter((order) => order.id !== orderId);
     updateOrders(updatedOrders);
   };
@@ -36,19 +37,25 @@ export default function OrdersScreen() {
   };
 
   const renderOrderItem = ({ item }) => (
-    <View style={styles.orderItem}>
-      <View style={styles.itemHeader}>
-        <Text style={styles.itemName}>{item.product.name}</Text>
+    <View style={styles.orderItemContainer}>
+      <View style={styles.orderItemContent}>
+        <View style={styles.orderItemDetails}>
+          <Text style={styles.orderItemName}>{item.product.name}</Text>
+          <View style={styles.orderItemQuantityPrice}>
+            <View style={styles.quantityBadge}>
+              <Text style={styles.quantityText}>{item.quantity}</Text>
+            </View>
+            <Text style={styles.orderItemPrice}>
+              R$ {(item.product.price * item.quantity).toFixed(2)}
+            </Text>
+          </View>
+        </View>
         <TouchableOpacity
           style={styles.removeButton}
           onPress={() => handleRemoveConfirmation(item)}
         >
-          <Ionicons name="trash" size={20} color="#F44336" />
+          <Ionicons name="trash" size={24} color="#F44336" />
         </TouchableOpacity>
-      </View>
-      <View style={styles.itemDetails}>
-        <Text>Quantidade: {item.quantity}</Text>
-        <Text>R$ {(item.product.price * item.quantity).toFixed(2)}</Text>
       </View>
     </View>
   );
@@ -60,22 +67,22 @@ export default function OrdersScreen() {
       visible={modalVisible}
       onRequestClose={() => setModalVisible(false)}
     >
-      <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContainer}>
           <Text style={styles.modalTitle}>Remover Item</Text>
-          <Text style={styles.modalText}>
+          <Text style={styles.modalMessage}>
             Tem certeza que deseja remover {selectedOrder?.product.name} do
             pedido?
           </Text>
-          <View style={styles.modalButtonContainer}>
+          <View style={styles.modalActions}>
             <TouchableOpacity
-              style={styles.modalCancelButton}
+              style={[styles.modalButton, styles.cancelButton]}
               onPress={() => setModalVisible(false)}
             >
               <Text style={styles.modalButtonText}>Cancelar</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.modalConfirmButton}
+              style={[styles.modalButton, styles.confirmButton]}
               onPress={() => {
                 handleRemoveOrder(selectedOrder.id);
                 setModalVisible(false);
@@ -91,90 +98,228 @@ export default function OrdersScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Meus Pedidos</Text>
-      {orders.length === 0 ? (
-        <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>Seu pedido está vazio</Text>
-        </View>
-      ) : (
-        <FlatList
-          data={orders}
-          renderItem={renderOrderItem}
-          keyExtractor={(item) => item.id}
-          ListFooterComponent={
-            <View style={styles.totalContainer}>
-              <Text style={styles.totalText}>
-                Total: R$ {calculateTotal().toFixed(2)}
-              </Text>
-              <TouchableOpacity style={styles.checkoutButton}>
+      <LinearGradient
+        colors={["#8B4513", "#D2691E"]}
+        style={styles.gradientBackground}
+      >
+        <Text style={styles.screenTitle}>Meus Pedidos</Text>
+        {orders.length === 0 ? (
+          <View style={styles.emptyStateContainer}>
+            <Ionicons name="basket" size={100} color="rgba(255,255,255,0.5)" />
+            <Text style={styles.emptyStateText}>Seu carrinho está vazio</Text>
+            <Text style={styles.emptyStateSubtext}>
+              Adicione alguns itens para começar
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.orderListContainer}>
+            <FlatList
+              data={orders}
+              renderItem={renderOrderItem}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={styles.orderList}
+              showsVerticalScrollIndicator={false}
+            />
+            <View style={styles.orderSummary}>
+              <View style={styles.totalContainer}>
+                <Text style={styles.totalLabel}>Total</Text>
+                <Text style={styles.totalValue}>
+                  R$ {calculateTotal().toFixed(2)}
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={styles.checkoutButton}
+                onPress={() =>
+                  Alert.alert("Em desenvolvimento", "Checkout em breve!")
+                }
+              >
                 <Text style={styles.checkoutButtonText}>Finalizar Pedido</Text>
+                <Ionicons name="cart" size={24} color="white" />
               </TouchableOpacity>
             </View>
-          }
-        />
-      )}
+          </View>
+        )}
 
-      <ConfirmRemovalModal />
+        <ConfirmRemovalModal />
+      </LinearGradient>
     </SafeAreaView>
   );
 }
 
+const { width } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
-  // ... Existing styles from previous implementation
-  itemHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 5,
+  container: {
+    flex: 1,
   },
-  removeButton: {
-    padding: 5,
+  gradientBackground: {
+    flex: 1,
+    paddingTop: 20,
   },
-  modalContainer: {
+  screenTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  emptyStateContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
+    opacity: 0.7,
   },
-  modalContent: {
+  emptyStateText: {
+    color: "white",
+    fontSize: 22,
+    fontWeight: "bold",
+    marginTop: 20,
+  },
+  emptyStateSubtext: {
+    color: "white",
+    fontSize: 16,
+    marginTop: 10,
+  },
+  orderListContainer: {
+    flex: 1,
+    backgroundColor: "white",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 20,
+  },
+  orderList: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  orderItemContainer: {
+    marginBottom: 15,
+    backgroundColor: "#F5F5F5",
+    borderRadius: 15,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  orderItemContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 15,
+  },
+  orderItemDetails: {
+    flex: 1,
+  },
+  orderItemName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 5,
+  },
+  orderItemQuantityPrice: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  quantityBadge: {
+    backgroundColor: "#8B4513",
+    borderRadius: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    marginRight: 10,
+  },
+  quantityText: {
+    color: "white",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  orderItemPrice: {
+    fontSize: 16,
+    color: "#8B4513",
+    fontWeight: "bold",
+  },
+  removeButton: {
+    padding: 10,
+  },
+  orderSummary: {
+    backgroundColor: "white",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderTopWidth: 1,
+    borderTopColor: "#E0E0E0",
+  },
+  totalContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 15,
+  },
+  totalLabel: {
+    fontSize: 18,
+    color: "#666",
+  },
+  totalValue: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#8B4513",
+  },
+  checkoutButton: {
+    backgroundColor: "#8B4513",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 15,
+    borderRadius: 10,
+  },
+  checkoutButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginRight: 10,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    width: width * 0.85,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 20,
-    width: "80%",
     alignItems: "center",
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
-    marginBottom: 15,
     color: "#8B4513",
+    marginBottom: 15,
   },
-  modalText: {
+  modalMessage: {
     fontSize: 16,
-    marginBottom: 20,
     textAlign: "center",
+    marginBottom: 20,
+    color: "#333",
   },
-  modalButtonContainer: {
+  modalActions: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
   },
-  modalCancelButton: {
-    backgroundColor: "#666",
-    padding: 10,
-    borderRadius: 10,
+  modalButton: {
     flex: 1,
-    marginRight: 10,
+    paddingVertical: 12,
+    borderRadius: 10,
+    marginHorizontal: 5,
+    alignItems: "center",
   },
-  modalConfirmButton: {
+  cancelButton: {
+    backgroundColor: "#E0E0E0",
+  },
+  confirmButton: {
     backgroundColor: "#8B4513",
-    padding: 10,
-    borderRadius: 10,
-    flex: 1,
   },
   modalButtonText: {
     color: "white",
-    textAlign: "center",
+    fontSize: 16,
     fontWeight: "bold",
   },
 });
