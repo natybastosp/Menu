@@ -1,50 +1,106 @@
-# Welcome to your Expo app 👋
+# Coffee Shop Mobile Application
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Project Overview
 
-## Get started
+This is a mobile application built using Expo and React Native, designed to create a seamless coffee ordering experience. The app provides users with the ability to browse a coffee menu, add items to their order, manage their profile, and view their current orders.
 
-1. Install dependencies
+## Key Features
 
-   ```bash
-   npm install
-   ```
+- Browse a curated coffee menu with detailed product information
+- Add products to orders with quantity selection
+- Manage personal profile with basic information
+- View and edit current orders
+- Responsive design for both iOS and Android
 
-2. Start the app
+## Technology Stack
 
-   ```bash
-    npx expo start
-   ```
+- React Native
+- Expo
+- TypeScript
+- Context API for state management
 
-In the output, you'll find options to open the app in a
+## Prerequisites
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Before you begin, ensure you have the following installed:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Node.js (version 16 or later)
+- npm or Yarn
+- Expo CLI
+- Android Studio or Xcode (for emulators)
+- Expo Go app (for mobile testing)
 
-## Get a fresh project
+## Installation and Setup
 
-When you're ready, run:
+### 1. Clone the Repository
 
 ```bash
-npm run reset-project
+git clone https://github.com/your-username/coffee-shop-mobile.git
+cd coffee-shop-mobile
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Install Dependencies
 
-## Learn more
+```bash
+npm install
+# or
+yarn install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+### 3. Start the Development Server
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npx expo start
+```
 
-## Join the community
+### 4. Running the App
 
-Join our community of developers creating universal apps.
+- **iOS Simulator**: Press `i` in the terminal
+- **Android Emulator**: Press `a` in the terminal
+- **Expo Go (Physical Device)**:
+  1. Install Expo Go from App Store/Google Play
+  2. Scan QR code displayed in terminal with Expo Go app
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Project Structure
+
+```
+coffeShop/
+├── app/
+│   ├── (tabs)/
+│   │   ├── index.tsx       # Home screen with product menu
+│   │   ├── order.tsx       # Order management screen
+│   │   └── profile.tsx     # User profile screen
+├── assets/
+│   └── images/             # Product and UI images
+├── components/             # Reusable React components
+├── context/                # Application state management
+└── README.md
+```
+
+## Key Components
+
+- **ProductCard**: Displays individual coffee products
+- **AppContext**: Manages global state for products, orders, and user data
+- **TabLayout**: Configures bottom navigation
+
+## State Management
+
+The app uses React Context (`AppContext`) to manage global state, including:
+
+- Product catalog
+- User orders
+- Customer profile information
+
+## Customization and Extensibility
+
+The current implementation provides a solid foundation for a coffee shop mobile app. You can easily extend functionality by:
+
+- Adding more products to the menu
+- Implementing user authentication
+- Creating a backend connection for order processing
+
+## Potential Improvements
+
+- Implement persistent storage
+- Add user authentication
+- Create a checkout process
+- Implement order history tracking
