@@ -89,14 +89,14 @@ export default function ProfileScreen() {
                   source={require("@/assets/images/coffeeGroup.png")}
                   style={styles.avatar}
                 />
-                <TouchableOpacity
+                {/*    <TouchableOpacity
                   style={styles.editAvatarButton}
                   onPress={() =>
                     Alert.alert("Aviso", "Edição de avatar não implementada")
                   }
                 >
                   <Ionicons name="camera" size={20} color="white" />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
               <Text style={styles.welcomeText}>
                 {customerData.name ? `Olá, ${customerData.name}` : "Meu Perfil"}

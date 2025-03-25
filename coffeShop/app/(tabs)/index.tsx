@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Modal,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import ProductCard from "@/components/ProductCard";
 import { useAppContext } from "@/context/AppContext";
@@ -15,6 +16,10 @@ export default function HomeScreen() {
   const { products, addOrder } = useAppContext();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
+
+  // Screen width to calculate item width
+  const screenWidth = Dimensions.get("window").width;
+  const itemWidth = (screenWidth - 40) / 2; // 20px padding on each side
 
   const handleProductPress = (product) => {
     setSelectedProduct(product);
@@ -56,15 +61,19 @@ export default function HomeScreen() {
       <FlatList
         data={products}
         renderItem={({ item }) => (
-          <ProductCard
-            name={item.name}
-            price={item.price}
-            description={item.description}
-            image={item.image}
-            onPress={() => handleProductPress(item)}
-          />
+          <View style={[styles.cardContainer, { width: itemWidth }]}>
+            <ProductCard
+              name={item.name}
+              price={item.price}
+              description={item.description}
+              image={item.image}
+              onPress={() => handleProductPress(item)}
+            />
+          </View>
         )}
         keyExtractor={(item) => item.id}
+        numColumns={2}
+        columnWrapperStyle={styles.row}
         contentContainerStyle={styles.list}
       />
 
@@ -116,6 +125,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#25292e",
     alignItems: "center",
   },
+  title: {
+    fontSize: 24,
+    color: "white",
+    marginVertical: 10,
+    fontWeight: "bold",
+  },
+  row: {
+    justifyContent: "space-between",
+  },
+  cardContainer: {
+    marginBottom: 10,
+    paddingHorizontal: 5,
+  },
+  list: {
+    paddingHorizontal: 10,
+  },
+
   imageContainer: {
     flex: 1,
     paddingTop: 28,
