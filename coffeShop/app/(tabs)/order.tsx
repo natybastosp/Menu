@@ -69,17 +69,17 @@ export default function OrdersScreen() {
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>Remover Item</Text>
+          <Text style={styles.modalTitle}>Remove Item</Text>
           <Text style={styles.modalMessage}>
-            Tem certeza que deseja remover {selectedOrder?.product.name} do
-            pedido?
+            Are you sure you want to remove {selectedOrder?.product.name} from
+            the order?
           </Text>
           <View style={styles.modalActions}>
             <TouchableOpacity
               style={[styles.modalButton, styles.cancelButton]}
               onPress={() => setModalVisible(false)}
             >
-              <Text style={styles.modalButtonText}>Cancelar</Text>
+              <Text style={styles.modalButtonText}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.modalButton, styles.confirmButton]}
@@ -88,7 +88,7 @@ export default function OrdersScreen() {
                 setModalVisible(false);
               }}
             >
-              <Text style={styles.modalButtonText}>Confirmar</Text>
+              <Text style={styles.modalButtonText}>Confirm</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -102,13 +102,13 @@ export default function OrdersScreen() {
         colors={["#8B4513", "#D2691E"]}
         style={styles.gradientBackground}
       >
-        <Text style={styles.screenTitle}>Meus Pedidos</Text>
+        <Text style={styles.screenTitle}>My order</Text>
         {orders.length === 0 ? (
           <View style={styles.emptyStateContainer}>
             <Ionicons name="basket" size={100} color="rgba(255,255,255,0.5)" />
-            <Text style={styles.emptyStateText}>Seu carrinho está vazio</Text>
+            <Text style={styles.emptyStateText}>Your cart is empty</Text>
             <Text style={styles.emptyStateSubtext}>
-              Adicione alguns itens para começar
+              Add some items to get started
             </Text>
           </View>
         ) : (
@@ -133,7 +133,7 @@ export default function OrdersScreen() {
                   Alert.alert("Em desenvolvimento", "Checkout em breve!")
                 }
               >
-                <Text style={styles.checkoutButtonText}>Finalizar Pedido</Text>
+                <Text style={styles.checkoutButtonText}>Checkout</Text>
                 <Ionicons name="cart" size={24} color="white" />
               </TouchableOpacity>
             </View>

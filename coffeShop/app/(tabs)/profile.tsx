@@ -24,37 +24,40 @@ export default function ProfileScreen() {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleSubmit = () => {
-    // Validações básicas
+    // Basic validations
     if (!name || !email || !phone) {
-      Alert.alert("Erro", "Todos os campos são obrigatórios");
+      Alert.alert("Error", "All fields are required");
       return;
     }
 
-    // Validação de email simples
+    // Simple email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      Alert.alert("Erro", "E-mail inválido");
+      Alert.alert("Error", "Invalid email");
       return;
     }
 
-    // Validação de telefone (formato brasileiro)
+    // Phone validation (Brazilian format)
     const phoneRegex = /^\(\d{2}\)\s*\d{4,5}-\d{4}$/;
     if (!phoneRegex.test(phone)) {
-      Alert.alert("Erro", "Telefone inválido. Use o formato (00) 00000-0000");
+      Alert.alert(
+        "Error",
+        "Invalid phone number. Use the format (00) 00000-0000"
+      );
       return;
     }
 
-    // Atualiza dados do cliente
+    // Update customer data
     updateCustomerData({ name, email, phone });
-    Alert.alert("Sucesso", "Cadastro atualizado com sucesso!");
+    Alert.alert("Success", "Profile updated successfully!");
     setIsEditing(false);
   };
 
   const formatPhone = (text: string) => {
-    // Remove todos os caracteres que não são dígitos
+    // Remove all non-digit characters
     const cleaned = text.replace(/\D/g, "");
 
-    // Aplica a máscara de telefone
+    // Apply phone mask
     let formatted = cleaned;
     if (cleaned.length > 0) {
       formatted = `(${cleaned.slice(0, 2)}`;
@@ -92,14 +95,16 @@ export default function ProfileScreen() {
                 {/*    <TouchableOpacity
                   style={styles.editAvatarButton}
                   onPress={() =>
-                    Alert.alert("Aviso", "Edição de avatar não implementada")
+                    Alert.alert("Notice", "Avatar editing not implemented")
                   }
                 >
                   <Ionicons name="camera" size={20} color="white" />
                 </TouchableOpacity> */}
               </View>
               <Text style={styles.welcomeText}>
-                {customerData.name ? `Olá, ${customerData.name}` : "Meu Perfil"}
+                {customerData.name
+                  ? `Hello, ${customerData.name}`
+                  : "My Profile"}
               </Text>
             </View>
 
@@ -115,7 +120,7 @@ export default function ProfileScreen() {
                   style={styles.input}
                   value={name}
                   onChangeText={setName}
-                  placeholder="Nome Completo"
+                  placeholder="Full Name"
                   editable={isEditing}
                 />
               </View>
@@ -131,7 +136,7 @@ export default function ProfileScreen() {
                   style={styles.input}
                   value={email}
                   onChangeText={setEmail}
-                  placeholder="E-mail"
+                  placeholder="Email"
                   keyboardType="email-address"
                   autoCapitalize="none"
                   editable={isEditing}
@@ -149,7 +154,7 @@ export default function ProfileScreen() {
                   style={styles.input}
                   value={phone}
                   onChangeText={formatPhone}
-                  placeholder="Telefone"
+                  placeholder="Phone"
                   keyboardType="phone-pad"
                   maxLength={15}
                   editable={isEditing}
@@ -163,7 +168,7 @@ export default function ProfileScreen() {
                     onPress={() => setIsEditing(true)}
                   >
                     <Ionicons name="create" size={20} color="white" />
-                    <Text style={styles.buttonText}>Editar Perfil</Text>
+                    <Text style={styles.buttonText}>Edit Profile</Text>
                   </TouchableOpacity>
                 ) : (
                   <>
@@ -172,7 +177,7 @@ export default function ProfileScreen() {
                       onPress={handleSubmit}
                     >
                       <Ionicons name="save" size={20} color="white" />
-                      <Text style={styles.buttonText}>Salvar</Text>
+                      <Text style={styles.buttonText}>Save</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.cancelButton}
@@ -184,7 +189,7 @@ export default function ProfileScreen() {
                       }}
                     >
                       <Ionicons name="close" size={20} color="white" />
-                      <Text style={styles.buttonText}>Cancelar</Text>
+                      <Text style={styles.buttonText}>Cancel</Text>
                     </TouchableOpacity>
                   </>
                 )}

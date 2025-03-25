@@ -57,7 +57,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Nosso Cardápio</Text>
+      <Text style={styles.title}>Menu</Text>
       <FlatList
         data={products}
         renderItem={({ item }) => (
@@ -100,15 +100,13 @@ export default function HomeScreen() {
                   style={styles.modalButton}
                   onPress={handleAddToOrder}
                 >
-                  <Text style={styles.modalButtonText}>
-                    Adicionar ao Pedido
-                  </Text>
+                  <Text style={styles.modalButtonText}>Add to Order</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.modalButton, styles.cancelButton]}
                   onPress={() => setSelectedProduct(null)}
                 >
-                  <Text style={styles.modalButtonText}>Cancelar</Text>
+                  <Text style={styles.modalButtonText}>Cancel</Text>
                 </TouchableOpacity>
               </View>
             </View>
